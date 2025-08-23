@@ -86,8 +86,9 @@ int quadraticEquation(double a, double b, double c,
     assert(x1 != x2);
 
     if(isEqualDouble(a, 0.0, THRESHOLD)) {
-        if (isEqualDouble(b, 0.0, THRESHOLD)
-        && isEqualDouble(c, 0.0, THRESHOLD)) return QUADRATIC_EQUATION_INFINITE_ROOTS;
+        if (isEqualDouble(b, 0.0, THRESHOLD)){
+            return isEqualDouble(c, 0.0, THRESHOLD) ? QUADRATIC_EQUATION_INFINITE_ROOTS : 0;
+        }
         *x1 = -c/b;
         *x2 = NAN;
         return 1;
@@ -102,7 +103,7 @@ int quadraticEquation(double a, double b, double c,
 }
 
 void testQuadraticEquation(){
-    double x1 = 0, x2 = 0;
+    double x1 = NAN, x2 = NAN;
 	int numberOfRoots = quadraticEquation(1, -5, 6, &x1, &x2);
 	if(!(numberOfRoots == 2 && isEqualDouble(x1, 2.0, THRESHOLD) && isEqualDouble(x2, 3.0, THRESHOLD))) {
 		printf("#1 FAILED: quadraticEquation(-1, 5, 6,...) -> %d, x1=%lf, x2=%lf \n(should be numberOfRoots = 2, x1=2, x2=3)\n", numberOfRoots, x1, x2);
