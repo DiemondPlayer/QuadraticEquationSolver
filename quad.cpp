@@ -4,6 +4,7 @@
 #include "quad.h"
 
 int main() {
+    testQuadraticEquation();
     double a, b, c;
     double x1, x2;
     a = b = c = x1 = x2 = NAN;
@@ -92,10 +93,42 @@ int quadraticEquation(double a, double b, double c,
         return 1;
     }
     double discriminant = b*b - 4*a*c;
-    *x1 = (-b + sqrt(discriminant))/(2*a);
-    *x2 = (-b - sqrt(discriminant))/(2*a);
+    *x1 = (-b - sqrt(discriminant))/(2*a);
+    *x2 = (-b + sqrt(discriminant))/(2*a);
 
     if (isEqualDouble(discriminant, 0.0, THRESHOLD)) return 1;
     if (discriminant > 0.0) return 2;
     /* if discriminant < 0.0 */ return 0;
+}
+
+void testQuadraticEquation(){
+    double x1 = 0, x2 = 0;
+	int numberOfRoots = quadraticEquation(1, -5, 6, &x1, &x2);
+	if(!(numberOfRoots == 2 && isEqualDouble(x1, 2.0, THRESHOLD) && isEqualDouble(x2, 3.0, THRESHOLD))) {
+		printf("#1 FAILED: quadraticEquation(-1, 5, 6,...) -> %d, x1=%lf, x2=%lf \n(should be numberOfRoots = 2, x1=2, x2=3)\n", numberOfRoots, x1, x2);
+	}
+    numberOfRoots = quadraticEquation(1, 2, 1, &x1, &x2);
+	if(!(numberOfRoots == 1 && isEqualDouble(x1, -1.0, THRESHOLD) && isEqualDouble(x2, -1.0, THRESHOLD))) {
+		printf("#2 FAILED: quadraticEquation(1, 2, 1,...) -> %d, x1=%lf, x2=%lf \n(should be numberOfRoots = 1, x1=-1, x2=-1)\n", numberOfRoots, x1, x2);
+	}
+    numberOfRoots = quadraticEquation(0, 2, 1, &x1, &x2);
+	if(!(numberOfRoots == 1 && isEqualDouble(x1, -0.5, THRESHOLD) && isnan(x2))) {
+		printf("#3 FAILED: quadraticEquation(0, 2, 1,...) -> %d, x1=%lf, x2=%lf \n(should be numberOfRoots = 1, x1=-0.5, x2=nan)\n", numberOfRoots, x1, x2);
+	}
+    numberOfRoots = quadraticEquation(0, 0, 0, &x1, &x2);
+	if(!(numberOfRoots == QUADRATIC_EQUATION_INFINITE_ROOTS)) {
+		printf("#4 FAILED: quadraticEquation(0, 0, 0,...) -> %d \n(should be numberOfRoots = -1)\n", numberOfRoots, x1, x2);
+	}
+    numberOfRoots = quadraticEquation(3, 2, 1, &x1, &x2);
+	if(!(numberOfRoots == 0 && isnan(x1) && isnan(x2))) {
+		printf("#5 FAILED: quadraticEquation(3, 2, 1,...) -> %d, x1=%lf, x2=%lf \n(should be numberOfRoots = 0, x1=nan, x2=nan)\n", numberOfRoots, x1, x2);
+	}
+    numberOfRoots = quadraticEquation(0.0000000000000000001, 2, 1, &x1, &x2);
+	if(!(numberOfRoots == 1 && isEqualDouble(x1, -0.5, THRESHOLD) && isnan(x2))) {
+		printf("#6 FAILED: quadraticEquation(0.0000000000000000001, 2, 1,...) -> %d, x1=%lf, x2=%lf \n(should be numberOfRoots = 1, x1=-0.5, x2=nan)\n", numberOfRoots, x1, x2);
+	}
+    numberOfRoots = quadraticEquation(0, 0.0000000000000000001, 0.0000000000000000001, &x1, &x2);
+	if(!(numberOfRoots == QUADRATIC_EQUATION_INFINITE_ROOTS)) {
+		printf("#7 FAILED: quadraticEquation(0, 0.0000000000000000001, 0.0000000000000000001,...) -> %d \n(should be numberOfRoots = -1)\n", numberOfRoots, x1, x2);
+	}
 }

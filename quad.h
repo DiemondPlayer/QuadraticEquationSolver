@@ -8,3 +8,4 @@ int printRoots(int numberOfRoots, double x1, double x2, bool isLinear);
 bool isEqualDouble(double d1, double d2, double threshold);
 int quadraticEquation(double a, double b, double c, double * x1, double * x2);
 void clearInput();
+void testQuadraticEquation();
