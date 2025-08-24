@@ -22,10 +22,10 @@ static int discriminantToNumberOfRoots(double discriminant);
 //!  If pointers are the same pointer
 int quadraticEquation(double a, double b, double c,
     double* x1, double* x2) {
-    feedbackAssert((!isnan(a) && !isnan(b) && !isnan(c)),
+    feedbackAssert(!isnan(a) && !isnan(b) && !isnan(c),
         "ERROR: Provided a nan double to quadraticEquation()!");
-    feedbackAssert((x1 && x2), "ERROR: Provided a null pointer to quadraticEquation()!");
-    feedbackAssert((x1 != x2),
+    feedbackAssert(x1 && x2, "ERROR: Provided a null pointer to quadraticEquation()!");
+    feedbackAssert(x1 != x2,
         "ERROR: Provided two identical pointers as root pointers to quadraticEquation()!");
 
     if (isZero(a)) { //checks for linearity
@@ -59,7 +59,7 @@ int quadraticEquation(double a, double b, double c,
 //!  If any of the doubles are nan
 int linearEquation(double k, double b, double* x1) {
     feedbackAssert(x1, "ERROR: Provided a null pointer to linearEquation()!");
-    feedbackAssert((!isnan(k) && !isnan(b)),
+    feedbackAssert(!isnan(k) && !isnan(b),
                     "ERROR: Provided a nan double to linearEquation()!");
 
     if (isZero(k))
@@ -77,8 +77,8 @@ int linearEquation(double k, double b, double* x1) {
 //! @throws AssertionError:
 //!  If any of the doubles are nan
 static int discriminantToNumberOfRoots(double discriminant) {
-    feedbackAssert((!isnan(discriminant)),
-    "ERROR: Provided a nan double to discriminantToNumberOfRoots()!");
+    feedbackAssert(!isnan(discriminant),
+                "ERROR: Provided a nan double to discriminantToNumberOfRoots()!");
 
     if (isZero(discriminant)) return 1;
     if (discriminant > 0.0) return 2;

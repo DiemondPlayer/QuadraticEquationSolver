@@ -4,6 +4,7 @@
 #include "unitTest.h"
 #include "polynomial.h"
 #include "double.h"
+#include "feedbackAssert.h"
 
 // quadratics tests
 static void testQuadraticEquations(int* passed, int* total);
@@ -31,6 +32,9 @@ void runUnitTests() {
 }
 
 static void testQuadraticEquations(int* passed, int* total) {
+    feedbackAssert(passed && total,
+                    "ERROR: Provided a null pointer to testQuadraticEquations()!");
+
     testQuadraticEquation(passed, total, 1, -5, 6, 2, 2, 3);
 	testQuadraticEquation(passed, total, 1, 2, 1, 1, -1, -1);
 	testQuadraticEquation(passed, total, 1, 2, 3, 0, NAN, NAN);
@@ -43,6 +47,9 @@ static void testQuadraticEquations(int* passed, int* total) {
 static void testQuadraticEquation(int* passed, int* total,
             double a, double b, double c,
             int refNumberOfRoots, double refX1, double refX2) {
+    feedbackAssert(passed && total,
+                    "ERROR: Provided a null pointer to testQuadraticEquation()!");
+
 	double x1 = NAN, x2 = NAN;
 	int numberOfRoots = quadraticEquation(a, b, c, &x1, &x2);
 
@@ -62,6 +69,9 @@ static void testQuadraticEquation(int* passed, int* total,
 }
 
 static void testLinearEquations(int* passed, int* total) {
+    feedbackAssert(passed && total,
+                    "ERROR: Provided a null pointer to testLinearEquations()!");
+
     testLinearEquation(passed, total, 4, 2, 1, -0.5);
     testLinearEquation(passed, total, 0, 0, EQUATION_INFINITE_ROOTS, NAN);
     //testLinearEquation(passed, total, 0, 3, 0, 8); //will fail on purpose
@@ -71,6 +81,9 @@ static void testLinearEquations(int* passed, int* total) {
 static void testLinearEquation(int* passed, int* total,
             double k, double b,
             int refNumberOfRoots, double refX1) {
+    feedbackAssert(passed && total,
+                    "ERROR: Provided a null pointer to testLinearEquation()!");
+
     double x1 = NAN;
 	int numberOfRoots = linearEquation(k, b, &x1);
 
