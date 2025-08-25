@@ -1,4 +1,4 @@
-const double THRESHOLD = 1e-9; /* threshold below which difference between doubles
+const double THRESHOLD = 1e-5; /* threshold below which difference between doubles
                                 is ignored and they are deemed equal */
 
 // double logic
