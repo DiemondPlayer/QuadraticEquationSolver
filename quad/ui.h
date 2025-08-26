@@ -1,3 +1,5 @@
+#include "polynomial.h"
+
 // input and output
 void determineCoefficients(double coeffs[]);
-int printRoots(int numberOfRoots, double roots[], bool isLinear);
+int printRoots(RootNumber rootNumber, double roots[], bool isLinear);

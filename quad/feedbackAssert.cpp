@@ -3,10 +3,15 @@
 #include "feedbackAssert.h"
 #undef feedbackAssert
 
-void feedbackAssert(bool expr, const char* s, const char* file, int line) {
+void feedbackAssert(bool expr, const char* message, const char* file,
+                    int line, const char* func, const char* exprString) {
     if (!expr) {
-        printf("%s\n"
-        "FILE: %s LINE: %d\n", s, file, line);
+        printf("%s"
+        "\nFILE: %s"
+        "\nLINE: %d"
+        "\nFUNCTION: %s"
+        "\nEXPRESSION: %s",
+        message, file, line, func, exprString);
         abort();
     }
 }
