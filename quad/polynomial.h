@@ -2,7 +2,7 @@ const int EQUATION_INFINITE_ROOTS = -1; /* returned by quadraticEquation() and l
                                      in case the given equation has infinite amount of roots */
 
 // quadratics
-int quadraticEquation(double a, double b, double c, double* x1, double* x2);
+int quadraticEquation(double coeffs[], double roots[]);
 
 // linears
-int linearEquation(double k, double b, double* x1);
+int linearEquation(double coeffs[], double* x1);

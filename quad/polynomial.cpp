@@ -20,17 +20,20 @@ static int discriminantToNumberOfRoots(double discriminant);
 //! @throws AssertionError:
 //!  If any of the pointers are null
 //!  If pointers are the same pointer
-int quadraticEquation(double a, double b, double c,
-    double* x1, double* x2) {
-    feedbackAssert(!isnan(a) && !isnan(b) && !isnan(c),
+int quadraticEquation(double coeffs[], double roots[]) {
+    feedbackAssert(!isnan(coeffs[0]) && !isnan(coeffs[1]) && !isnan(coeffs[2]),
         "ERROR: Provided a nan double to quadraticEquation()!");
-    feedbackAssert(x1 && x2, "ERROR: Provided a null pointer to quadraticEquation()!");
-    feedbackAssert(x1 != x2,
+    feedbackAssert(&roots[0] && &roots[1],
+        "ERROR: Provided a null pointer to quadraticEquation()!");
+    feedbackAssert(&roots[0] != &roots[1],
         "ERROR: Provided two identical pointers as root pointers to quadraticEquation()!");
 
+    double a = coeffs[0], b = coeffs[1], c = coeffs[2];
+
     if (isZero(a)) { //checks for linearity
-        *x2 = NAN;
-        return linearEquation(b, c, x1);;
+        roots[1] = NAN;
+        double linearCoeffs[2] = {b, c};
+        return linearEquation(linearCoeffs, &roots[0]);
     }
 
     double discriminant = b * b - 4 * a * c;
@@ -38,8 +41,8 @@ int quadraticEquation(double a, double b, double c,
     int numberOfRoots = discriminantToNumberOfRoots(discriminant);
 
     if (numberOfRoots != 0) {
-        *x1 = (-b - sqrt(discriminant)) / (2 * a);
-        *x2 = (-b + sqrt(discriminant)) / (2 * a);
+        roots[0] = (-b - sqrt(discriminant)) / (2 * a);
+        roots[1] = (-b + sqrt(discriminant)) / (2 * a);
     }
 
     return numberOfRoots;
@@ -57,10 +60,12 @@ int quadraticEquation(double a, double b, double c,
 //! @throws AssertionError:
 //!  If the pointer is null
 //!  If any of the doubles are nan
-int linearEquation(double k, double b, double* x1) {
+int linearEquation(double coeffs[], double* x1) {
     feedbackAssert(x1, "ERROR: Provided a null pointer to linearEquation()!");
-    feedbackAssert(!isnan(k) && !isnan(b),
+    feedbackAssert(!isnan(coeffs[0]) && !isnan(coeffs[1]),
                     "ERROR: Provided a nan double to linearEquation()!");
+
+    double k = coeffs[0], b = coeffs[1];
 
     if (isZero(k))
         return isZero(b) ? EQUATION_INFINITE_ROOTS : 0;
