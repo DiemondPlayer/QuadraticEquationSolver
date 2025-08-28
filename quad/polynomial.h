@@ -1,12 +1,20 @@
 enum RootNumber {
-    INFINITE_ROOTS = -1,
+    NOT_DEFINED = -2,
+    INFINITE_ROOTS,
     NO_ROOTS,
     ONE_ROOT,
     TWO_ROOTS
 };
 
-// quadratics
-RootNumber quadraticEquation(const double coeffs[], double roots[]);
+struct EquationData {
+    RootNumber rootNumber = NOT_DEFINED;
+    const double a, b, c;
+    double x1 = NAN, x2 = NAN;
+};
+
+
+//quadratics
+void quadraticEquation(EquationData* eqData);
 
 // linears
-RootNumber linearEquation(const double coeffs[], double* x1);
+void linearEquation(EquationData* eqData);

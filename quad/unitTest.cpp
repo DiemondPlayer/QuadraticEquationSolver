@@ -4,24 +4,23 @@
 #include "unitTest.h"
 #include "polynomial.h"
 #include "double.h"
-#include "feedbackAssert.h"
+#include "util.h"
 
 struct EquationTestData {
-    RootNumber refRootNumber;
-    double coeffs[3], refRoots[2];
+    EquationData eqData;
+    const RootNumber refRootNumber;
+    const double refX1, refX2; //вопрос ментору: стоит ли тут ставить дефолт значения
 };
 
 // quadratics tests
 static void testQuadraticEquations(int* passed, int* total);
 static void testQuadraticEquation(int* passed, int* total,
-                        const EquationTestData* eqData);
+                        EquationTestData* test);
 
 // linear tests
 static void testLinearEquations(int* passed, int* total);
 static void testLinearEquation(int* passed, int* total,
-                        const EquationTestData* eqData);
-
-#define sizer(A) sizeof(A) / sizeof(A[0])
+                        EquationTestData* test);
 
 void runUnitTests() {
     printf("Meow ^w^");
@@ -41,12 +40,13 @@ static void testQuadraticEquations(int* passed, int* total) {
     feedbackAssert(passed && total,
                     "\n[ERROR]: Provided a null pointer to testQuadraticEquations()!");
 
-    const EquationTestData tests[5] = {
-        {TWO_ROOTS, {1, -5, 6}, {2, 3}},
-        {ONE_ROOT, {1, 2, 1}, {-1, -1}},
-        {NO_ROOTS, {1, 2, 3}, {NAN, NAN}},
-        {ONE_ROOT, {1e-10, 2, 1}, {-0.5, NAN}},
-        {INFINITE_ROOTS, {0, 1e-10, 1e-10}, {NAN, NAN}}
+    EquationTestData tests[] = {
+        //{{.a = , .b = , .c = , .x1 = , .x2 = }, .refRootNumber = , .refX1 = , .refX2 = }
+        {{NOT_DEFINED, 1, -5, 6, NAN, NAN}, TWO_ROOTS, 2, 3},
+        {{NOT_DEFINED, 1, 2, 1, NAN, NAN}, ONE_ROOT, -1, -1},
+        {{NOT_DEFINED, 1, 2, 3, NAN, NAN}, NO_ROOTS, NAN, NAN},
+        {{NOT_DEFINED, 1e-10, 2, 1, NAN, NAN}, ONE_ROOT, -0.5, NAN},
+        {{NOT_DEFINED, 0, 1e-10, 1e-10, NAN, NAN}, INFINITE_ROOTS, NAN, NAN}
     };
 
     for (size_t i = 0; i < sizer(tests); i++)
@@ -54,25 +54,26 @@ static void testQuadraticEquations(int* passed, int* total) {
 }
 
 static void testQuadraticEquation(int* passed, int* total,
-                                const EquationTestData* eqData) {
+                                EquationTestData* test) {
     feedbackAssert(passed && total,
                     "\n[ERROR]: Provided a null pointer to testQuadraticEquation()!");
+    //TODO more asserts
 
-	double roots[2] = {NAN, NAN};
-
-	RootNumber rootNumber = quadraticEquation(eqData->coeffs, roots);
+	quadraticEquation(&(test->eqData)); //вопрос ментору: записать получше?
 
     (*total)++;
 
-	if(!(rootNumber == eqData->refRootNumber
-        && smartEqual(roots[0], eqData->refRoots[0], THRESHOLD)
-        && smartEqual(roots[1], eqData->refRoots[1], THRESHOLD))) {
+	if(!((test->eqData).rootNumber == test->refRootNumber
+        && smartEqual((test->eqData).x1, test->refX1, THRESHOLD)
+        && smartEqual((test->eqData).x2, test->refX2, THRESHOLD))) {
 		printf("\n#%d FAILED: quadraticEquation(%lf, %lf, %lf, ...)"
                 " returned %d, x1 = %lf, x2 = %lf"
                 "\n(should be rootNumber = %d, x1 = %lf, x2=%lf)",
-                *total, eqData->coeffs[0], eqData->coeffs[1], eqData->coeffs[2],
-                rootNumber, roots[0], roots[1], eqData->refRootNumber,
-                eqData->refRoots[0], eqData->refRoots[1]);
+                *total, (test->eqData).a,
+                (test->eqData).b, (test->eqData).c,
+                (test->eqData).rootNumber, (test->eqData).x1,
+                (test->eqData).x2, test->refRootNumber,
+                test->refX1, test->refX2);
 		return;
 	}
 
@@ -83,10 +84,10 @@ static void testLinearEquations(int* passed, int* total) {
     feedbackAssert(passed && total,
                     "\n[ERROR]: Provided a null pointer to testLinearEquations()!");
 
-    const EquationTestData tests[3] = {
-        {ONE_ROOT, {4, 2}, {-0.5}},
-        {INFINITE_ROOTS, {0, 0}, {NAN}},
-        {NO_ROOTS, {0, 3}, {NAN}}
+    EquationTestData tests[3] = {
+        {{NOT_DEFINED, 0, 4, 2, NAN, NAN}, ONE_ROOT, -0.5, NAN},
+        {{NOT_DEFINED, 0, 0, 0, NAN, NAN}, INFINITE_ROOTS, NAN, NAN},
+        {{NOT_DEFINED, 0, 0, 3, NAN, NAN}, NO_ROOTS, NAN, NAN}
     };
 
     for (size_t i = 0; i < sizer(tests); i++)
@@ -94,23 +95,26 @@ static void testLinearEquations(int* passed, int* total) {
 }
 
 static void testLinearEquation(int* passed, int* total,
-                                const EquationTestData* eqData) {
+                                EquationTestData* test) {
     feedbackAssert(passed && total,
                     "\n[ERROR]: Provided a null pointer to testLinearEquation()!");
+    //TODO more asserts
 
-    double x1 = NAN;
-	RootNumber rootNumber = linearEquation(eqData->coeffs, &x1);
+    linearEquation(&(test->eqData)); //вопрос ментору: записать получше?
 
     (*total)++;
 
-	if(!(rootNumber == eqData->refRootNumber
-        && smartEqual(x1, eqData->refRoots[0], THRESHOLD))) {
-		printf("\n#%d FAILED: linearEquation(%lf, %lf, ...)"
-                " returned %d, x1 = %lf"
-                "\n(should be rootNumber = %d, x1 = %lf)",
-                *total, eqData->coeffs[0],
-                eqData->coeffs[1], rootNumber, x1, eqData  ->
-                refRootNumber, eqData->refRoots[0]);
+	if(!((test->eqData).rootNumber == test->refRootNumber
+        && smartEqual((test->eqData).x1, test->refX1, THRESHOLD)
+        && smartEqual((test->eqData).x2, test->refX2, THRESHOLD))) {
+		printf("\n#%d FAILED: linearEquation(%lf, %lf, %lf, ...)"
+                " returned %d, x1 = %lf, x2 = %lf"
+                "\n(should be rootNumber = %d, x1 = %lf, x2=%lf)",
+                *total, (test->eqData).a,
+                (test->eqData).b, (test->eqData).c,
+                (test->eqData).rootNumber, (test->eqData).x1,
+                (test->eqData).x2, test->refRootNumber,
+                test->refX1, test->refX2);
 		return;
 	}
 

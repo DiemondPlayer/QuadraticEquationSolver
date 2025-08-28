@@ -2,7 +2,7 @@
 #include <cstdlib>
 
 #include "double.h"
-#include "feedbackAssert.h"
+#include "util.h"
 
 //! @brief Checks if two doubles are similar enough in value (similarity is determined by a threshold)
 //! @author Leonid Yutlin
@@ -17,12 +17,12 @@ bool isEqualDouble(double d1, double d2, double threshold) {
         "\n[ERROR]: Provided a nan double to isEqualDouble()!");
 
     return fabs(d1 - d2) < fabs(threshold);
-} // @bug risk stackOverFlow
+}
 
 bool smartEqual(double d1, double d2, double threshold) {
     return (isnan(d1) || isnan(d2)) ?
             (isnan(d1) && isnan(d2)) : isEqualDouble(d1, d2, threshold);
-} // @bug risk stackOverFlow
+}
 
 bool isZero(double d1) {
     feedbackAssert((!isnan(d1)),
