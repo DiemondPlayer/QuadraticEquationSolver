@@ -1,19 +1,30 @@
 enum RootNumber {
-    NOT_DEFINED    = -2,
-    INFINITE_ROOTS = -1,
-    NO_ROOTS       =  0,
-    ONE_ROOT       =  1,
-    TWO_ROOTS      =  2
+    NOT_DEFINED,
+    INFINITE_ROOTS,
+    NO_ROOTS,
+    ONE_ROOT,
+    TWO_ROOTS
+};
+
+struct Coeffs {
+    const double a, b, c;
+};
+
+struct Roots {
+    RootNumber rootNumber = NOT_DEFINED;
+    double x1 = NAN, x2 = NAN;
 };
 
 struct EquationData {
-    RootNumber rootNumber = NOT_DEFINED;
-    const double a, b, c;
-    double x1 = NAN, x2 = NAN;
+    Coeffs coeffs;
+    Roots roots = {};
 };
 
 // enums
 const char* rootNumberToString(RootNumber rootNumber);
+
+// structs
+bool areEqualRoots(Roots r1, Roots r2);
 
 // quadratics
 void quadraticEquation(EquationData* eqData);

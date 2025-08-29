@@ -1,11 +1,12 @@
 #include "polynomial/polynomial.h"
 
 // input
-EquationData inputToEquationData();
+Coeffs inputCoeffs();
 bool askToContinue();
 
 // output
-void printRoots(EquationData* eqData);
+void printRoots(Roots roots);
+void printCoeffs(Coeffs coeffs);
 
 
 

@@ -1,8 +1,8 @@
 #include <math.h>
 #include <cstdlib>
 
-#include "double/double.h"
-#include "util/util.h"
+#include "util/double.h"
+#include "util/assert.h"
 
 //! @brief Checks if two doubles are similar enough in value (similarity is determined by a threshold)
 //! @author Leonid Yutlin

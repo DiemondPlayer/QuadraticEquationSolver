@@ -5,8 +5,3 @@ void feedbackAssert(bool expr, const char* message,
 
 #define feedbackAssert(A, B) feedbackAssert(A, B, __FILE__, __LINE__, __PRETTY_FUNCTION__, #A)
 // file and line from pre-processor, pretty function from compiler
-
-//better array length macros
-#define sizer(A) sizeof(A) / sizeof(A[0]) // test
-
-// assert

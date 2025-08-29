@@ -1,52 +1,54 @@
 #include <math.h>
 
 #include "polynomial/polynomial.h"
-#include "double/double.h"
-#include "util/util.h"
+#include "util/double.h"
+#include "util/assert.h"
 
 // quadratics
 static RootNumber discriminantToRootNumber(double discriminant);
 
-//TODO equation() ну я типо нззззззз както
-
 void quadraticEquation(EquationData* eqData) {
     feedbackAssert(eqData, "\n[ERROR]: Provided a null EquationData pointer!");
-    feedbackAssert(!isnan(eqData->a) && !isnan(eqData->b) && !isnan(eqData->c),
+    feedbackAssert(!isnan(eqData->coeffs.a)
+                   && !isnan(eqData->coeffs.b)
+                   && !isnan(eqData->coeffs.c),
                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
-    double a = eqData->a, b = eqData->b, c = eqData->c;
+    double a = eqData->coeffs.a, b = eqData->coeffs.b, c = eqData->coeffs.c;
 
     if (isZero(a)) return linearEquation(eqData);
 
     double discriminant = b * b - 4 * a * c;
 
-    eqData->rootNumber = discriminantToRootNumber(discriminant);
+    eqData->roots.rootNumber = discriminantToRootNumber(discriminant);
 
-    if (eqData->rootNumber == TWO_ROOTS) {
+    if (eqData->roots.rootNumber == TWO_ROOTS) {
         double sqRoot = sqrt(discriminant);
-        eqData->x1 = (-b - sqRoot) / (2 * a);
-        eqData->x2 = (-b + sqRoot) / (2 * a);
-    } else if (eqData->rootNumber == ONE_ROOT) {
-        eqData->x1 = eqData->x2 = -b / (2 * a);
+        eqData->roots.x1 = (-b - sqRoot) / (2 * a);
+        eqData->roots.x2 = (-b + sqRoot) / (2 * a);
+    } else if (eqData->roots.rootNumber == ONE_ROOT) {
+        eqData->roots.x1 = eqData->roots.x2 = -b / (2 * a);
     }
 }
 
 void linearEquation(EquationData* eqData) {
     feedbackAssert(eqData, "\n[ERROR]: Provided a null EquationData pointer!");
-    feedbackAssert(!isnan(eqData->a) && !isnan(eqData->b) && !isnan(eqData->c),
+    feedbackAssert(!isnan(eqData->coeffs.a)
+                   && !isnan(eqData->coeffs.b)
+                   && !isnan(eqData->coeffs.c),
                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
-    double b = eqData->b, c = eqData->c;
+    double b = eqData->coeffs.b, c = eqData->coeffs.c;
 
     if (isZero(b)) {
-        eqData->rootNumber = isZero(c) ? INFINITE_ROOTS : NO_ROOTS;
+        eqData->roots.rootNumber = isZero(c) ? INFINITE_ROOTS : NO_ROOTS;
         return;
     }
 
-    eqData->x1 = -c / b;
-    // eqData->x2 = NAN; // а он и так нан.. может убрать
+    eqData->roots.x1 = -c / b;
+    // eqData->roots.x2 = NAN; // а он и так нан.. может убрать
 
-    eqData->rootNumber = ONE_ROOT;
+    eqData->roots.rootNumber = ONE_ROOT;
 }
 
 //! @author Leonid Yutlin
@@ -78,4 +80,10 @@ const char* rootNumberToString(RootNumber rootNumber) {
                 "\nIf it weren't for the assert, the program would return NOT_DEFINED instead");
             return "NOT_DEFINED";
     }
+}
+
+bool areEqualRoots(Roots r1, Roots r2) {
+    return r1.rootNumber == r2.rootNumber &&
+        ((smartEqual(r1.x1, r2.x1, THRESHOLD) && smartEqual(r1.x2, r2.x2, THRESHOLD))
+        || (smartEqual(r1.x1, r2.x2, THRESHOLD) && smartEqual(r1.x2, r2.x1, THRESHOLD)));
 }
