@@ -30,28 +30,30 @@ void printRoots(EquationData* eqData) {
         case ONE_ROOT:
             if (isnan(eqData->x2)) {
                 printf("\nThe given equation is deemed linear!"
-                        "\nThe given equation has only one root:"
-                        "\nx = %lg", eqData->x1);
+                       "\nThe given equation has only one root:"
+                       "\nx = %lg", eqData->x1);
             } else {
                 printf("\nThe given equation has one distinct real root:"
-                        "\nx1 = x2 = %lg", eqData->x1);
+                       "\nx1 = x2 = %lg", eqData->x1);
             }
             break;
         case TWO_ROOTS:
             printf("\nThe given equation has two distinct real roots:"
-                    "\nx1 = %lg"
-                    "\nx2 = %lg", eqData->x1, eqData->x2);
+                   "\nx1 = %lg"
+                   "\nx2 = %lg", eqData->x1, eqData->x2);
             break;
         case INFINITE_ROOTS:
             printf("\nThe given equation has infinite amount of "
-                    "real distinct roots (any x will do) :O");
+                   "real distinct roots (any x will do) :O");
             break;
         case NOT_DEFINED:
-            feedbackAssert(false, "\n[ERROR]: Caught a NOT_DEFINED case in switch(rootNumber) in printRoots()");
+            feedbackAssert(false, "\n[ERROR]: Caught a NOT_DEFINED case "
+                                  "in switch(rootNumber) in printRoots()");
             break;
             //TODO better msg
         default:
-            feedbackAssert(false, "\n[ERROR]: No valid case found for switch(rootNumber) in printRoots()");
+            feedbackAssert(false, "\n[ERROR]: No valid case found "
+                                  "for switch(rootNumber) in printRoots()");
     }
     printf("\nCOMMIT GITHUB");
 }
@@ -68,7 +70,7 @@ static void interpretInput(double* a, double* b, double* c) {
     feedbackAssert(b, "\n[ERROR]: Provided a null pointer to interpretInput()!");
     feedbackAssert(c, "\n[ERROR]: Provided a null pointer to interpretInput()!");
     feedbackAssert(a != b && b != c && c != a,
-                    "\n[ERROR]: Provided two or more identical pointers to interpretInput()!");
+                   "\n[ERROR]: Provided two or more identical pointers to interpretInput()!");
 
     printf("\nEnter coefficients of the equation (a, b, c): ");
     while (scanf("%lg %lg %lg", a, b, c) != 3) {

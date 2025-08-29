@@ -9,7 +9,7 @@
 struct EquationTestData {
     EquationData eqData;
     const RootNumber refRootNumber;
-    const double refX1, refX2; //вопрос ментору: стоит ли тут ставить дефолт значения
+    const double refX1, refX2;
 };
 
 // quadratics tests
@@ -33,7 +33,7 @@ int runUnitTests() {
         printf("\nAll unit tests have ran successfully");
     } else {
         printf("\n(%d/%d) unit tests have ran successfully"
-               "\nShutting down program", passed, total);
+               "\nShutting down the program", passed, total);
         return 1;
     }
     return 0;
@@ -41,7 +41,7 @@ int runUnitTests() {
 
 static void testQuadraticEquations(int* passed, int* total) {
     feedbackAssert(passed && total,
-                    "\n[ERROR]: Provided a null pointer to testQuadraticEquations()!");
+                   "\n[ERROR]: Provided a null pointer to testQuadraticEquations()!");
 
     EquationTestData tests[] = {
 //      {{.a =  ,     .b =   ,    .c =      }, .refRootNumber = , .refX1 = , .refX2 = }
@@ -109,10 +109,11 @@ static void testQuadraticEquations(int* passed, int* total) {
 static void testQuadraticEquation(int* passed, int* total,
                                     EquationTestData* test) {
     feedbackAssert(passed && total,
-                    "\n[ERROR]: Provided a null pointer to testQuadraticEquation()!");
-    feedbackAssert(&(test->eqData), "\n[ERROR]: Provided a null EquationData pointer!");
+                   "\n[ERROR]: Provided a null pointer to testQuadraticEquation()!");
+    feedbackAssert(&(test->eqData),
+                   "\n[ERROR]: Provided a null EquationData pointer!");
     feedbackAssert(!isnan(test->eqData.a) && !isnan(test->eqData.b) && !isnan(test->eqData.c),
-                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
+                   "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
 	quadraticEquation(&(test->eqData)); //вопрос ментору: записать получше?
 
@@ -136,7 +137,7 @@ static void testQuadraticEquation(int* passed, int* total,
 
 static void testLinearEquations(int* passed, int* total) {
     feedbackAssert(passed && total,
-                    "\n[ERROR]: Provided a null pointer to testLinearEquations()!");
+                   "\n[ERROR]: Provided a null pointer to testLinearEquations()!");
 
     EquationTestData tests[3] = {
 //      {{.a =  , .b =   , .c =  }, .refRootNumber = , .refX1 = , .refX2 = }
@@ -152,10 +153,11 @@ static void testLinearEquations(int* passed, int* total) {
 static void testLinearEquation(int* passed, int* total,
                                EquationTestData* test) {
     feedbackAssert(passed && total,
-                    "\n[ERROR]: Provided a null pointer to testLinearEquation()!");
-    feedbackAssert(&(test->eqData), "\n[ERROR]: Provided a null EquationData pointer!");
+                   "\n[ERROR]: Provided a null pointer to testLinearEquation()!");
+    feedbackAssert(&(test->eqData),
+                   "\n[ERROR]: Provided a null EquationData pointer!");
     feedbackAssert(!isnan(test->eqData.a) && !isnan(test->eqData.b) && !isnan(test->eqData.c),
-                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
+                   "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
     linearEquation(&(test->eqData)); //вопрос ментору: записать получше?
 

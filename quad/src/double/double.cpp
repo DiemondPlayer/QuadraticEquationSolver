@@ -14,7 +14,7 @@
 //!  If any of the doubles are nan
 bool isEqualDouble(double d1, double d2, double threshold) {
     feedbackAssert(!isnan(d1) && !isnan(d2) && !isnan(threshold),
-        "\n[ERROR]: Provided a nan double to isEqualDouble()!");
+                   "\n[ERROR]: Provided a nan double to isEqualDouble()!");
 
     return fabs(d1 - d2) < fabs(threshold);
 }
@@ -26,7 +26,7 @@ bool smartEqual(double d1, double d2, double threshold) {
 
 bool isZero(double d1) {
     feedbackAssert((!isnan(d1)),
-        "\n[ERROR]: Provided a nan double to isZero()!");
+                   "\n[ERROR]: Provided a nan double to isZero()!");
 
     return isEqualDouble(d1, 0.0, THRESHOLD);
 }

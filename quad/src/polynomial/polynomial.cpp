@@ -12,7 +12,7 @@ static RootNumber discriminantToRootNumber(double discriminant);
 void quadraticEquation(EquationData* eqData) {
     feedbackAssert(eqData, "\n[ERROR]: Provided a null EquationData pointer!");
     feedbackAssert(!isnan(eqData->a) && !isnan(eqData->b) && !isnan(eqData->c),
-                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
+                   "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
     double a = eqData->a, b = eqData->b, c = eqData->c;
 
@@ -34,7 +34,7 @@ void quadraticEquation(EquationData* eqData) {
 void linearEquation(EquationData* eqData) {
     feedbackAssert(eqData, "\n[ERROR]: Provided a null EquationData pointer!");
     feedbackAssert(!isnan(eqData->a) && !isnan(eqData->b) && !isnan(eqData->c),
-                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
+                   "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
     double b = eqData->b, c = eqData->c;
 
@@ -57,7 +57,7 @@ void linearEquation(EquationData* eqData) {
 //!  If any of the doubles are nan
 static RootNumber discriminantToRootNumber(double discriminant) {
     feedbackAssert(!isnan(discriminant),
-                "\n[ERROR]: Provided a nan double to discriminantToRootNumber()!");
+                   "\n[ERROR]: Provided a nan double to discriminantToRootNumber()!");
 
     if (isZero(discriminant)) return ONE_ROOT;
     if (discriminant > 0.0) return TWO_ROOTS;
@@ -72,6 +72,7 @@ const char* rootNumberToString(RootNumber rootNumber) {
         case INFINITE_ROOTS: return "INFINITE_ROOTS";
         case NOT_DEFINED: return "NOT_DEFINED";
         default:
+            //не оч красиво, переформатировать?
             feedbackAssert(false,
                 "\n[ERROR]: No valid case found for switch(rootNumber) in rootNumberToString()"
                 "\nIf it weren't for the assert, the program would return NOT_DEFINED instead");
