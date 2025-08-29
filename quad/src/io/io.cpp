@@ -64,8 +64,9 @@ bool askToContinue() {
     //FIXME баг, ждёт инпут два раза хотя сканирует только первый ответ
     // read about scanf
     char c = '\0';
-    printf("\nDo you want to solve another equation? (y/n or 1/0)");
-    scanf(" %c ", &c);
+    printf("\nDo you want to solve another equation?"
+           "\nEnter y or 1 to continue, anything else to terminate: ");
+    scanf(" %c", &c);
     clearInput();
     return c == '1' || c == 'y';
 }

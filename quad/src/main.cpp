@@ -5,7 +5,6 @@
 #include "util/double.h"
 #include "io/io.h"
 
-// TODO scanf
 // TODO tests from file
 // ...
 // TODO update docs
@@ -16,10 +15,10 @@ int main() {
     TestFeedback testFeedback = runUnitTests();
     if (testFeedback != OK) return testFeedback;
 
-    printf("\nQuadratic equation solving program v1");
+    printf("\nQuadratic equation solving program v1\n");
 
     do {
-        printf("\n-------------------------------------");
+        printf("-------------------------------------");
         EquationData eqData = { .coeffs = inputCoeffs() };
         printCoeffs(eqData.coeffs);
         solveEquation(&eqData);
