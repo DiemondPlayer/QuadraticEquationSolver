@@ -22,7 +22,7 @@ static void testLinearEquations(int* passed, int* total);
 static void testLinearEquation (int* passed, int* total,
                         EquationTestData* test);
 
-int runUnitTests() {
+RuntimeCondition runUnitTests() {
     printf("Meow ^w^");
     int total = 0, passed = 0;
 
@@ -34,9 +34,9 @@ int runUnitTests() {
     } else {
         printf("\n(%d/%d) unit tests have ran successfully"
                "\nShutting down the program", passed, total);
-        return 1;
+        return SHUTDOWN;
     }
-    return 0;
+    return OK;
 }
 
 static void testQuadraticEquations(int* passed, int* total) {

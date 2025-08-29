@@ -5,12 +5,12 @@
 #include "io.h"
 
 int main() {
-    int testFeedback = runUnitTests();
-    if (testFeedback != 0) return testFeedback;
+    RuntimeCondition testFeedback = runUnitTests();
+    if (testFeedback != OK) return testFeedback;
     EquationData eqData = inputToEquationData();
     quadraticEquation(&eqData);
     printRoots(&eqData);
-    return 0;
+    return OK;
 }
 
 //TODO update docs
