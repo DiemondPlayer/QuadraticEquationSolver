@@ -4,7 +4,7 @@
 /.idea/
 /dataSources/
 /dataSources.local.xml
-/quad2test/
+/quad/build/
 *.gch
 *.exe
 *.o

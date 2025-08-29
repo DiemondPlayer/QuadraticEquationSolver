@@ -1,5 +1,5 @@
 #include "polynomial.h"
 
-// input and output
+// user input and program output
 EquationData inputToEquationData();
 void printRoots(EquationData* eqData);

@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <math.h>
-#include "ui.h"
+#include "io.h"
 #include "util.h"
 
 static void interpretInput(double* a, double* b, double* c);

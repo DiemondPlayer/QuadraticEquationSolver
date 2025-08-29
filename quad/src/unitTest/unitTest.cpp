@@ -14,12 +14,12 @@ struct EquationTestData {
 
 // quadratics tests
 static void testQuadraticEquations(int* passed, int* total);
-static void testQuadraticEquation(int* passed, int* total,
+static void testQuadraticEquation (int* passed, int* total,
                         EquationTestData* test);
 
 // linear tests
 static void testLinearEquations(int* passed, int* total);
-static void testLinearEquation(int* passed, int* total,
+static void testLinearEquation (int* passed, int* total,
                         EquationTestData* test);
 
 void runUnitTests() {
@@ -27,7 +27,7 @@ void runUnitTests() {
     int total = 0, passed = 0;
 
     testQuadraticEquations(&passed, &total);
-    testLinearEquations(&passed, &total);
+    testLinearEquations(&passed,    &total);
 
     if (total == passed) {
         printf("\nAll unit tests have ran successfully");
@@ -42,19 +42,69 @@ static void testQuadraticEquations(int* passed, int* total) {
 
     EquationTestData tests[] = {
         //{{.a = , .b = , .c = , .x1 = , .x2 = }, .refRootNumber = , .refX1 = , .refX2 = }
-        {{NOT_DEFINED, 1, -5, 6, NAN, NAN}, TWO_ROOTS, 2, 3},
-        {{NOT_DEFINED, 1, 2, 1, NAN, NAN}, ONE_ROOT, -1, -1},
-        {{NOT_DEFINED, 1, 2, 3, NAN, NAN}, NO_ROOTS, NAN, NAN},
-        {{NOT_DEFINED, 1e-10, 2, 1, NAN, NAN}, ONE_ROOT, -0.5, NAN},
-        {{NOT_DEFINED, 0, 1e-10, 1e-10, NAN, NAN}, INFINITE_ROOTS, NAN, NAN}
+        {{NOT_DEFINED, 1,    -5,     6,     NAN, NAN}, TWO_ROOTS, 2, 3},
+        {{NOT_DEFINED, 1,     2,     1,     NAN, NAN}, ONE_ROOT, -1, -1},
+        {{NOT_DEFINED, 1,     2,     3,     NAN, NAN}, NO_ROOTS, NAN, NAN},
+        {{NOT_DEFINED, 1e-10, 2,     1,     NAN, NAN}, ONE_ROOT, -0.5, NAN},
+        {{NOT_DEFINED, 0,     1e-10, 1e-10, NAN, NAN}, INFINITE_ROOTS, NAN, NAN}
     };
 
     for (size_t i = 0; i < sizer(tests); i++)
         testQuadraticEquation(passed, total, &(tests[i]));
+
+    //А я сейчас файл-ридер забабахаю!
+
+//     FILE* fp = fopen("test.txt", "r");
+
+    //int ch = '\0';
+    //double assembledDoubles[5] = {NAN, NAN, NAN, NAN, NAN};
+
+    // while (fscanf(fp, "%lf %lf %lf %lf %lf") == 5) {
+        // char str[100];
+        // str[0] = ch;
+        // printf("%c", ch);
+        // int i = 1;
+        // while ((ch = getc(fp)) != EOF && ch != '\n') {
+        //     str[i] = ch;
+        //     printf("%c", ch);
+        //     i++;
+        // }
+        // str[i+1] = '\0';
+        // double a = NAN, b = NAN, c = NAN;
+        // double refX1 = NAN, refX2 = NAN;
+        // fscanf(fp, "%lf %lf %lf %lf %lf", &a, &b, &c, &refX1, &refX2);
+        // int ch = 0;
+        // while ((ch = getchar()) != EOF && ch != '\n');
+        // if (refX1 > refX2) {
+        //     double temp = refX1;
+        //     refX2 = refX1;
+        //     refX1 = temp;
+        // }
+        // int counter = 2;
+        // if (isZero(refX1)) {
+        //     refX1 = NAN;
+        //     counter--;
+        // }
+        // if (isZero(refX2)) {
+        //     refX2 = NAN;
+        //     counter--;
+        // }
+        // RootNumber rootNumber = NOT_DEFINED;
+        // switch (counter) {
+        //     case 0: rootNumber = NO_ROOTS; break;
+        //     case 1: rootNumber = ONE_ROOT; break;
+        //     case 2: rootNumber = TWO_ROOTS; break;
+        // }
+
+//         EquationTestData test = {{NOT_DEFINED, a, b, c, NAN, NAN}, rootNumber, refX1, refX2};
+//         testQuadraticEquation(passed, total, &test);
+//     }
+//
+//     fclose(fp);
 }
 
 static void testQuadraticEquation(int* passed, int* total,
-                                EquationTestData* test) {
+                                    EquationTestData* test) {
     feedbackAssert(passed && total,
                     "\n[ERROR]: Provided a null pointer to testQuadraticEquation()!");
     //TODO more asserts
@@ -65,16 +115,17 @@ static void testQuadraticEquation(int* passed, int* total,
 
 	if(!((test->eqData).rootNumber == test->refRootNumber
         && smartEqual((test->eqData).x1, test->refX1, THRESHOLD)
-        && smartEqual((test->eqData).x2, test->refX2, THRESHOLD))) {
-		printf("\n#%d FAILED: quadraticEquation(%lf, %lf, %lf, ...)"
-                " returned %d, x1 = %lf, x2 = %lf"
-                "\n(should be rootNumber = %d, x1 = %lf, x2=%lf)",
-                *total, (test->eqData).a,
-                (test->eqData).b, (test->eqData).c,
-                (test->eqData).rootNumber, (test->eqData).x1,
-                (test->eqData).x2, test->refRootNumber,
-                test->refX1, test->refX2);
-		return;
+        && smartEqual((test->eqData).x2, test->refX2, THRESHOLD)))
+    {
+        printf("\n#%d FAILED: quadraticEquation(%lf, %lf, %lf, ...)"
+            " returned %d, x1 = %lf, x2 = %lf"
+            "\n(should be rootNumber = %d, x1 = %lf, x2=%lf)",
+            *total, (test->eqData).a,
+            (test->eqData).b,          (test->eqData).c,
+            (test->eqData).rootNumber, (test->eqData).x1,
+            (test->eqData).x2, test->refRootNumber,
+            test->refX1,       test->refX2);
+        return;
 	}
 
     (*passed)++;
@@ -106,7 +157,8 @@ static void testLinearEquation(int* passed, int* total,
 
 	if(!((test->eqData).rootNumber == test->refRootNumber
         && smartEqual((test->eqData).x1, test->refX1, THRESHOLD)
-        && smartEqual((test->eqData).x2, test->refX2, THRESHOLD))) {
+        && smartEqual((test->eqData).x2, test->refX2, THRESHOLD)))
+    {
 		printf("\n#%d FAILED: linearEquation(%lf, %lf, %lf, ...)"
                 " returned %d, x1 = %lf, x2 = %lf"
                 "\n(should be rootNumber = %d, x1 = %lf, x2=%lf)",

@@ -7,6 +7,8 @@
 // quadratics
 static RootNumber discriminantToRootNumber(double discriminant);
 
+//TODO equation() ну я типо нззззззз както
+
 void quadraticEquation(EquationData* eqData) {
     feedbackAssert(eqData, "\n[ERROR]: Provided a null pointer to quadraticEquation()!");
     feedbackAssert(!isnan(eqData->a) && !isnan(eqData->b) && !isnan(eqData->c),
