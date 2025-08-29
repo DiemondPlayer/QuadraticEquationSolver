@@ -3,13 +3,28 @@
 #include "io.h"
 #include "util.h"
 
+// input
+static EquationData inputToEquationData();
 static void interpretInput(double* a, double* b, double* c);
 static void clearInput();
+static bool askToContinue();
 
-EquationData inputToEquationData() {
+// output
+static void printRoots(EquationData* eqData);
+
+void handleIO() {
+    printf("\nQuadratic equation solving program v1");
+    do {
+        printf("\n-------------------------------------");
+        EquationData eqData = inputToEquationData();
+        quadraticEquation(&eqData);
+        printRoots(&eqData);
+    } while (askToContinue() == true);
+    printf("\nCOMMIT GITHUB");
+}
+
+static EquationData inputToEquationData() {
     double a = NAN, b = NAN, c = NAN;
-    printf("\nQuadratic equation solving program v1"
-           "\n-------------------------------------");
     interpretInput(&a, &b, &c);
     printf("\nThe coefficients have been determined as such:"
            "\na = %lg"
@@ -18,7 +33,7 @@ EquationData inputToEquationData() {
     return {.a = a, .b = b, .c = c}; //остальные станут дефолт значениями
 }
 
-void printRoots(EquationData* eqData) {
+static void printRoots(EquationData* eqData) {
     feedbackAssert(eqData, "\n[ERROR]: Provided a null EquationData pointer!");
     feedbackAssert(!isnan(eqData->a) && !isnan(eqData->b) && !isnan(eqData->c),
                     "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
@@ -55,7 +70,6 @@ void printRoots(EquationData* eqData) {
             feedbackAssert(false, "\n[ERROR]: No valid case found "
                                   "for switch(rootNumber) in printRoots()");
     }
-    printf("\nCOMMIT GITHUB");
 }
 
 //! @brief uses getchar() until it encounters a newline char or EOF
@@ -78,4 +92,13 @@ static void interpretInput(double* a, double* b, double* c) {
         printf("\nEnter coefficients of the equation (a, b, c): ");
         clearInput();
     }
+}
+
+static bool askToContinue() {
+    //баг, ждёт инпут два раза хотя сканирует только первый ответ
+    char c = '\0';
+    printf("\nDo you want to solve another equation? (y/n or 1/0)");
+    scanf(" %c ", &c);
+    clearInput();
+    return c == '1' || c == 'y';
 }

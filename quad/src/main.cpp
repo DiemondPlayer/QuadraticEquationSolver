@@ -7,9 +7,7 @@
 int main() {
     RuntimeCondition testFeedback = runUnitTests();
     if (testFeedback != OK) return testFeedback;
-    EquationData eqData = inputToEquationData();
-    quadraticEquation(&eqData);
-    printRoots(&eqData);
+    handleIO();
     return OK;
 }
 
