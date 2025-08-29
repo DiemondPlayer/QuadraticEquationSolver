@@ -1,4 +1,5 @@
 #include <math.h>
+#include <string.h>
 
 #include "polynomial/polynomial.h"
 #include "util/double.h"
@@ -91,13 +92,32 @@ const char* rootNumberToString(RootNumber rootNumber) {
             //не оч красиво, переформатировать?
             feedbackAssert(false,
                 "\n[ERROR]: No valid case found for switch(rootNumber) in rootNumberToString()"
-                "\nIf it weren't for the assert, the program would return NOT_DEFINED instead");
+                "\nIf it wasn't for the assert, the program would return NOT_DEFINED instead");
             return "NOT_DEFINED";
     }
 }
 
+RootNumber stringToRootNumber(const char* rootNumberStr) {
+    if (strcmp(rootNumberStr, "NO_ROOTS") == 0)
+        return NO_ROOTS;
+
+    if (strcmp(rootNumberStr, "ONE_ROOT") == 0)
+        return ONE_ROOT;
+
+    if (strcmp(rootNumberStr, "TWO_ROOTS") == 0)
+        return TWO_ROOTS;
+
+    if (strcmp(rootNumberStr, "INFINITE_ROOTS") == 0)
+        return INFINITE_ROOTS;
+
+    feedbackAssert(false,
+        "\n[ERROR]: No valid case found for if chain in stringToRootNumber()"
+        "\nIf it wasn't for the assert, the program would return NOT_DEFINED instead");
+    return NOT_DEFINED;
+}
+
 bool areEqualRoots(Roots r1, Roots r2) {
-    return r1.rootNumber == r2.rootNumber &&
-        ((smartEqual(r1.x1, r2.x1, THRESHOLD) && smartEqual(r1.x2, r2.x2, THRESHOLD))
-        || (smartEqual(r1.x1, r2.x2, THRESHOLD) && smartEqual(r1.x2, r2.x1, THRESHOLD)));
+    return r1.rootNumber == r2.rootNumber
+        && ((smartEqual(r1.x1, r2.x1, THRESHOLD) && smartEqual(r1.x2, r2.x2, THRESHOLD))
+        ||  (smartEqual(r1.x1, r2.x2, THRESHOLD) && smartEqual(r1.x2, r2.x1, THRESHOLD)));
 }

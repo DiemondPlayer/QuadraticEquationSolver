@@ -61,15 +61,18 @@ static void testQuadraticEquations(int* passed, int* total) {
     for (size_t i = 0; i < sizer(tests); i++)
         testQuadraticEquation(passed, total, &(tests[i]));
 
-    FILE* filePtr = fopen("test.txt", "r");
+    FILE* filePtr = fopen("src/unitTest/quadraticEquationTests.txt", "r");
 
     double a = NAN, b = NAN, c = NAN;
-    char rootNumberStr[50] = {};
+    char rootNumberStr[ROOT_NUMBER_STR_LIMIT] = {};
     double refX1 = NAN, refX2 = NAN;
 
-    for (int i = 0; i < 4; i++) {
-        fscanf(filePtr, "%lf %lf %lf %s %lf %lf", &a, &b, &c, rootNumberStr, &refX1, &refX2);
-            printf("%lf %lf %lf %s %lf %lf", a, b, c, rootNumberStr, refX1, refX2);
+    while (fscanf(filePtr, "%lf %lf %lf %s %lf %lf", &a, &b, &c, rootNumberStr, &refX1, &refX2) == 6) {
+        EquationTestData fileDrivenTest = {
+            .eqData = {.coeffs = {.a = a, .b = b, .c = c}},
+            .refRoots = {.rootNumber = stringToRootNumber(rootNumberStr), .x1 = refX1, .x2 = refX2}
+        };
+        testQuadraticEquation(passed, total, &fileDrivenTest);
     }
 
     fclose(filePtr);
@@ -120,6 +123,22 @@ static void testLinearEquations(int* passed, int* total) {
 
     for (size_t i = 0; i < sizer(tests); i++)
         testLinearEquation(passed, total, &(tests[i]));
+
+    FILE* filePtr = fopen("src/unitTest/linearEquationTests.txt", "r");
+
+    double b = NAN, c = NAN;
+    char rootNumberStr[ROOT_NUMBER_STR_LIMIT] = {};
+    double refX1 = NAN;
+
+    while (fscanf(filePtr, "%lf %lf %s %lf", &b, &c, rootNumberStr, &refX1) == 4) {
+        EquationTestData fileDrivenTest = {
+            .eqData = {.coeffs = {.a = 0, .b = b, .c = c}},
+            .refRoots = {.rootNumber = stringToRootNumber(rootNumberStr), .x1 = refX1, .x2 = NAN}
+        };
+        testQuadraticEquation(passed, total, &fileDrivenTest);
+    }
+
+    fclose(filePtr);
 }
 
 static void testLinearEquation(int* passed, int* total,

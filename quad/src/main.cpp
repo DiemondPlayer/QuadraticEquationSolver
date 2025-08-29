@@ -5,9 +5,8 @@
 #include "util/double.h"
 #include "io/io.h"
 
-// TODO tests from file
-// ...
 // TODO update docs
+// TODO reverse test generation
 // ...
 // TODO 3x^2+5x+7=0
 
@@ -25,7 +24,7 @@ int main() {
         printRoots(eqData.roots);
     } while (askToContinue() == true);
 
-    printf("\nCOMMIT GITHUB");
+    printf("COMMIT GITHUB");
     return 0;
 }
 

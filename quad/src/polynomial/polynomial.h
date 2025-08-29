@@ -6,6 +6,8 @@ enum RootNumber {
     TWO_ROOTS
 };
 
+const int ROOT_NUMBER_STR_LIMIT = 15;
+
 struct Coeffs {
     const double a, b, c;
 };
@@ -22,6 +24,7 @@ struct EquationData {
 
 // enums
 const char* rootNumberToString(RootNumber rootNumber);
+RootNumber stringToRootNumber(const char* rootNumberStr);
 
 // structs
 bool areEqualRoots(Roots r1, Roots r2);
