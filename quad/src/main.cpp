@@ -5,8 +5,6 @@
 #include "util/double.h"
 #include "io/io.h"
 
-// TODO fix compile
-// TODO fix code
 // TODO scanf
 // TODO tests from file
 // ...
@@ -24,7 +22,7 @@ int main() {
         printf("\n-------------------------------------");
         EquationData eqData = { .coeffs = inputCoeffs() };
         printCoeffs(eqData.coeffs);
-        quadraticEquation(&eqData);
+        solveEquation(&eqData);
         printRoots(eqData.roots);
     } while (askToContinue() == true);
 

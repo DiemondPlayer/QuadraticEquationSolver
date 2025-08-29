@@ -7,6 +7,20 @@
 // quadratics
 static RootNumber discriminantToRootNumber(double discriminant);
 
+void solveEquation(EquationData* eqData) {
+    feedbackAssert(eqData, "\n[ERROR]: Provided a null EquationData pointer!");
+    feedbackAssert(!isnan(eqData->coeffs.a)
+                   && !isnan(eqData->coeffs.b)
+                   && !isnan(eqData->coeffs.c),
+                   "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
+
+    if (isZero(eqData->coeffs.a)) {
+        linearEquation(eqData);
+    } else {
+        quadraticEquation(eqData);
+    }
+}
+
 void quadraticEquation(EquationData* eqData) {
     feedbackAssert(eqData, "\n[ERROR]: Provided a null EquationData pointer!");
     feedbackAssert(!isnan(eqData->coeffs.a)

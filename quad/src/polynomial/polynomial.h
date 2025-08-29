@@ -26,6 +26,9 @@ const char* rootNumberToString(RootNumber rootNumber);
 // structs
 bool areEqualRoots(Roots r1, Roots r2);
 
+// general
+void solveEquation(EquationData* eqData);
+
 // quadratics
 void quadraticEquation(EquationData* eqData);
 
