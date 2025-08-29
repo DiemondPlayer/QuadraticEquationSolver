@@ -1,8 +1,8 @@
 #include <math.h>
 
-#include "polynomial.h"
-#include "double.h"
-#include "util.h"
+#include "polynomial/polynomial.h"
+#include "double/double.h"
+#include "util/util.h"
 
 // quadratics
 static RootNumber discriminantToRootNumber(double discriminant);
@@ -66,11 +66,11 @@ static RootNumber discriminantToRootNumber(double discriminant) {
 
 const char* rootNumberToString(RootNumber rootNumber) {
     switch (rootNumber) {
-        case NO_ROOTS: return "NO_ROOTS";
-        case ONE_ROOT: return "ONE_ROOT";
-        case TWO_ROOTS: return "TWO_ROOTS";
+        case NO_ROOTS:       return "NO_ROOTS";
+        case ONE_ROOT:       return "ONE_ROOT";
+        case TWO_ROOTS:      return "TWO_ROOTS";
         case INFINITE_ROOTS: return "INFINITE_ROOTS";
-        case NOT_DEFINED: return "NOT_DEFINED";
+        case NOT_DEFINED:    return "NOT_DEFINED";
         default:
             //не оч красиво, переформатировать?
             feedbackAssert(false,

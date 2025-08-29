@@ -7,4 +7,6 @@ void feedbackAssert(bool expr, const char* message,
 // file and line from pre-processor, pretty function from compiler
 
 //better array length macros
-#define sizer(A) sizeof(A) / sizeof(A[0])
+#define sizer(A) sizeof(A) / sizeof(A[0]) // test
+
+// assert

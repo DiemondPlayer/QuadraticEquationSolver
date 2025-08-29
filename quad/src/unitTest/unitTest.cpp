@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "unitTest.h"
-#include "polynomial.h"
-#include "double.h"
-#include "util.h"
+#include "unitTest/unitTest.h"
+#include "polynomial/polynomial.h"
+#include "double/double.h"
+#include "util/util.h"
 
 struct EquationTestData {
     EquationData eqData;
@@ -22,7 +22,7 @@ static void testLinearEquations(int* passed, int* total);
 static void testLinearEquation (int* passed, int* total,
                         EquationTestData* test);
 
-RuntimeCondition runUnitTests() {
+TestFeedback runUnitTests() {
     printf("Meow ^w^");
     int total = 0, passed = 0;
 
@@ -34,7 +34,7 @@ RuntimeCondition runUnitTests() {
     } else {
         printf("\n(%d/%d) unit tests have ran successfully"
                "\nShutting down the program", passed, total);
-        return SHUTDOWN;
+        return FAILED_UNIT_TEST_ERROR;
     }
     return OK;
 }
@@ -55,7 +55,18 @@ static void testQuadraticEquations(int* passed, int* total) {
     for (size_t i = 0; i < sizer(tests); i++)
         testQuadraticEquation(passed, total, &(tests[i]));
 
-    //TODO tests via file reading
+    FILE* filePtr = fopen("test.txt", "r");
+
+    double a = NAN, b = NAN, c = NAN;
+    char rootNumberStr[50] = {};
+    double refX1 = NAN, refX2 = NAN;
+
+    for (int i = 0; i < 4; i++) {
+        fscanf(filePtr, "%lf %lf %lf %s %lf %lf", &a, &b, &c, rootNumberStr, &refX1, &refX2);
+            printf("%lf %lf %lf %s %lf %lf", a, b, c, rootNumberStr, refX1, refX2);
+    }
+
+    fclose(filePtr);
 }
 
 static void testQuadraticEquation(int* passed, int* total,
@@ -67,7 +78,7 @@ static void testQuadraticEquation(int* passed, int* total,
     feedbackAssert(!isnan(test->eqData.a) && !isnan(test->eqData.b) && !isnan(test->eqData.c),
                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
-	quadraticEquation(&(test->eqData)); //вопрос ментору: записать получше?
+	quadraticEquation(&(test->eqData));
 
     (*total)++;
 
@@ -111,7 +122,7 @@ static void testLinearEquation(int* passed, int* total,
     feedbackAssert(!isnan(test->eqData.a) && !isnan(test->eqData.b) && !isnan(test->eqData.c),
                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
-    linearEquation(&(test->eqData)); //вопрос ментору: записать получше?
+    linearEquation(&(test->eqData));
 
     (*total)++;
 

@@ -1,29 +1,13 @@
 #include <cstdio>
 #include <math.h>
-#include "io.h"
-#include "util.h"
+#include "io/io.h"
+#include "util/util.h"
 
 // input
-static EquationData inputToEquationData();
 static void interpretInput(double* a, double* b, double* c);
 static void clearInput();
-static bool askToContinue();
 
-// output
-static void printRoots(EquationData* eqData);
-
-void handleIO() {
-    printf("\nQuadratic equation solving program v1");
-    do {
-        printf("\n-------------------------------------");
-        EquationData eqData = inputToEquationData();
-        quadraticEquation(&eqData);
-        printRoots(&eqData);
-    } while (askToContinue() == true);
-    printf("\nCOMMIT GITHUB");
-}
-
-static EquationData inputToEquationData() {
+EquationData inputToEquationData() {
     double a = NAN, b = NAN, c = NAN;
     interpretInput(&a, &b, &c);
     printf("\nThe coefficients have been determined as such:"
@@ -33,7 +17,7 @@ static EquationData inputToEquationData() {
     return {.a = a, .b = b, .c = c}; //остальные станут дефолт значениями
 }
 
-static void printRoots(EquationData* eqData) {
+void printRoots(EquationData* eqData) {
     feedbackAssert(eqData, "\n[ERROR]: Provided a null EquationData pointer!");
     feedbackAssert(!isnan(eqData->a) && !isnan(eqData->b) && !isnan(eqData->c),
                     "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
@@ -94,8 +78,9 @@ static void interpretInput(double* a, double* b, double* c) {
     }
 }
 
-static bool askToContinue() {
+bool askToContinue() {
     //FIXME баг, ждёт инпут два раза хотя сканирует только первый ответ
+    // read about scanf
     char c = '\0';
     printf("\nDo you want to solve another equation? (y/n or 1/0)");
     scanf(" %c ", &c);

@@ -1,7 +1,7 @@
-enum RuntimeCondition {
-    OK       = 0,
-    SHUTDOWN = 1
+enum TestFeedback {
+    OK                     = 0,
+    FAILED_UNIT_TEST_ERROR = 1
 };
 
 // main test runner
-RuntimeCondition runUnitTests();
+TestFeedback runUnitTests();

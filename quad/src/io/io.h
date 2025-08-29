@@ -1,6 +1,11 @@
-#include "polynomial.h"
+#include "polynomial/polynomial.h"
 
-void handleIO();
+// input
+EquationData inputToEquationData();
+bool askToContinue();
+
+// output
+void printRoots(EquationData* eqData);
 
 
 
