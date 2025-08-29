@@ -55,55 +55,7 @@ static void testQuadraticEquations(int* passed, int* total) {
     for (size_t i = 0; i < sizer(tests); i++)
         testQuadraticEquation(passed, total, &(tests[i]));
 
-    //А я сейчас файл-ридер забабахаю!
-
-//     FILE* fp = fopen("test.txt", "r");
-
-    //int ch = '\0';
-    //double assembledDoubles[5] = {NAN, NAN, NAN, NAN, NAN};
-
-    // while (fscanf(fp, "%lf %lf %lf %lf %lf") == 5) {
-        // char str[100];
-        // str[0] = ch;
-        // printf("%c", ch);
-        // int i = 1;
-        // while ((ch = getc(fp)) != EOF && ch != '\n') {
-        //     str[i] = ch;
-        //     printf("%c", ch);
-        //     i++;
-        // }
-        // str[i+1] = '\0';
-        // double a = NAN, b = NAN, c = NAN;
-        // double refX1 = NAN, refX2 = NAN;
-        // fscanf(fp, "%lf %lf %lf %lf %lf", &a, &b, &c, &refX1, &refX2);
-        // int ch = 0;
-        // while ((ch = getchar()) != EOF && ch != '\n');
-        // if (refX1 > refX2) {
-        //     double temp = refX1;
-        //     refX2 = refX1;
-        //     refX1 = temp;
-        // }
-        // int counter = 2;
-        // if (isZero(refX1)) {
-        //     refX1 = NAN;
-        //     counter--;
-        // }
-        // if (isZero(refX2)) {
-        //     refX2 = NAN;
-        //     counter--;
-        // }
-        // RootNumber rootNumber = NOT_DEFINED;
-        // switch (counter) {
-        //     case 0: rootNumber = NO_ROOTS; break;
-        //     case 1: rootNumber = ONE_ROOT; break;
-        //     case 2: rootNumber = TWO_ROOTS; break;
-        // }
-
-//         EquationTestData test = {{NOT_DEFINED, a, b, c, NAN, NAN}, rootNumber, refX1, refX2};
-//         testQuadraticEquation(passed, total, &test);
-//     }
-//
-//     fclose(fp);
+    //TODO tests via file reading
 }
 
 static void testQuadraticEquation(int* passed, int* total,

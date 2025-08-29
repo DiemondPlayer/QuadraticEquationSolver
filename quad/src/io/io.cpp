@@ -95,7 +95,7 @@ static void interpretInput(double* a, double* b, double* c) {
 }
 
 static bool askToContinue() {
-    //баг, ждёт инпут два раза хотя сканирует только первый ответ
+    //FIXME баг, ждёт инпут два раза хотя сканирует только первый ответ
     char c = '\0';
     printf("\nDo you want to solve another equation? (y/n or 1/0)");
     scanf(" %c ", &c);
