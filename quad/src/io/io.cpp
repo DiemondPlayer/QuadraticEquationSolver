@@ -8,7 +8,6 @@ static void clearInput();
 
 EquationData inputToEquationData() {
     double a = NAN, b = NAN, c = NAN;
-    double x1 = NAN, x2 = NAN;
     printf("\nQuadratic equation solving program v1"
            "\n-------------------------------------");
     interpretInput(&a, &b, &c);
@@ -16,10 +15,14 @@ EquationData inputToEquationData() {
            "\na = %lg"
            "\nb = %lg"
            "\nc = %lg", a, b, c);
-    return {.a = a, .b = b, .c = c, .x1 = x1, .x2 = x2};
+    return {.a = a, .b = b, .c = c}; //остальные станут дефолт значениями
 }
 
 void printRoots(EquationData* eqData) {
+    feedbackAssert(eqData, "\n[ERROR]: Provided a null EquationData pointer!");
+    feedbackAssert(!isnan(eqData->a) && !isnan(eqData->b) && !isnan(eqData->c),
+                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
+
     switch (eqData->rootNumber) {
         case NO_ROOTS:
             printf("\nThe given equation has no real roots :(");
@@ -61,11 +64,11 @@ static void clearInput() {
 }
 
 static void interpretInput(double* a, double* b, double* c) {
-    // feedbackAssert(a, "\n[ERROR]: Provided a null pointer to interpretInput()!");
-    // feedbackAssert(b, "\n[ERROR]: Provided a null pointer to interpretInput()!");
-    // feedbackAssert(c, "\n[ERROR]: Provided a null pointer to interpretInput()!");
-    // feedbackAssert(a != b && b != c && c != a,
-    //                 "\n[ERROR]: Provided two or more identical pointers to interpretInput()!");
+    feedbackAssert(a, "\n[ERROR]: Provided a null pointer to interpretInput()!");
+    feedbackAssert(b, "\n[ERROR]: Provided a null pointer to interpretInput()!");
+    feedbackAssert(c, "\n[ERROR]: Provided a null pointer to interpretInput()!");
+    feedbackAssert(a != b && b != c && c != a,
+                    "\n[ERROR]: Provided two or more identical pointers to interpretInput()!");
 
     printf("\nEnter coefficients of the equation (a, b, c): ");
     while (scanf("%lg %lg %lg", a, b, c) != 3) {

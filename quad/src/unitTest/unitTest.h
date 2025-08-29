@@ -1,2 +1,2 @@
 // main test runner
-void runUnitTests();
+int runUnitTests();

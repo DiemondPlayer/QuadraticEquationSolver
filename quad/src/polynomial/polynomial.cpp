@@ -10,10 +10,9 @@ static RootNumber discriminantToRootNumber(double discriminant);
 //TODO equation() ну я типо нззззззз както
 
 void quadraticEquation(EquationData* eqData) {
-    feedbackAssert(eqData, "\n[ERROR]: Provided a null pointer to quadraticEquation()!");
+    feedbackAssert(eqData, "\n[ERROR]: Provided a null EquationData pointer!");
     feedbackAssert(!isnan(eqData->a) && !isnan(eqData->b) && !isnan(eqData->c),
-                    "\n[ERROR]: Provided a nan double (coefficient inside eqData) "
-                    "to quadraticEquation()!");
+                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
     double a = eqData->a, b = eqData->b, c = eqData->c;
 
@@ -33,10 +32,9 @@ void quadraticEquation(EquationData* eqData) {
 }
 
 void linearEquation(EquationData* eqData) {
-    // feedbackAssert(eqData, "\n[ERROR]: Provided a null pointer to linearEquation()!");
-    // feedbackAssert(!isnan(eqData->a) && !isnan(eqData->b) && !isnan(eqData->c),
-    //                 "\n[ERROR]: Provided a nan double (coefficient inside eqData) "
-    //                 "to linearEquation()!");
+    feedbackAssert(eqData, "\n[ERROR]: Provided a null EquationData pointer!");
+    feedbackAssert(!isnan(eqData->a) && !isnan(eqData->b) && !isnan(eqData->c),
+                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
     double b = eqData->b, c = eqData->c;
 
@@ -46,7 +44,7 @@ void linearEquation(EquationData* eqData) {
     }
 
     eqData->x1 = -c / b;
-    // eqData->x2 = NAN; а он и так нан.. может убрать
+    // eqData->x2 = NAN; // а он и так нан.. может убрать
 
     eqData->rootNumber = ONE_ROOT;
 }
@@ -64,4 +62,19 @@ static RootNumber discriminantToRootNumber(double discriminant) {
     if (isZero(discriminant)) return ONE_ROOT;
     if (discriminant > 0.0) return TWO_ROOTS;
     /* if discriminant < 0.0 */ return NO_ROOTS;
+}
+
+const char* rootNumberToString(RootNumber rootNumber) {
+    switch (rootNumber) {
+        case NO_ROOTS: return "NO_ROOTS";
+        case ONE_ROOT: return "ONE_ROOT";
+        case TWO_ROOTS: return "TWO_ROOTS";
+        case INFINITE_ROOTS: return "INFINITE_ROOTS";
+        case NOT_DEFINED: return "NOT_DEFINED";
+        default:
+            feedbackAssert(false,
+                "\n[ERROR]: No valid case found for switch(rootNumber) in rootNumberToString()"
+                "\nIf it weren't for the assert, the program would return NOT_DEFINED instead");
+            return "NOT_DEFINED";
+    }
 }

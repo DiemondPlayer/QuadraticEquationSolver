@@ -22,7 +22,7 @@ static void testLinearEquations(int* passed, int* total);
 static void testLinearEquation (int* passed, int* total,
                         EquationTestData* test);
 
-void runUnitTests() {
+int runUnitTests() {
     printf("Meow ^w^");
     int total = 0, passed = 0;
 
@@ -32,8 +32,11 @@ void runUnitTests() {
     if (total == passed) {
         printf("\nAll unit tests have ran successfully");
     } else {
-        printf("\n(%d/%d) unit tests have ran successfully", passed, total);
+        printf("\n(%d/%d) unit tests have ran successfully"
+               "\nShutting down program", passed, total);
+        return 1;
     }
+    return 0;
 }
 
 static void testQuadraticEquations(int* passed, int* total) {
@@ -41,12 +44,12 @@ static void testQuadraticEquations(int* passed, int* total) {
                     "\n[ERROR]: Provided a null pointer to testQuadraticEquations()!");
 
     EquationTestData tests[] = {
-        //{{.a = , .b = , .c = , .x1 = , .x2 = }, .refRootNumber = , .refX1 = , .refX2 = }
-        {{NOT_DEFINED, 1,    -5,     6,     NAN, NAN}, TWO_ROOTS, 2, 3},
-        {{NOT_DEFINED, 1,     2,     1,     NAN, NAN}, ONE_ROOT, -1, -1},
-        {{NOT_DEFINED, 1,     2,     3,     NAN, NAN}, NO_ROOTS, NAN, NAN},
-        {{NOT_DEFINED, 1e-10, 2,     1,     NAN, NAN}, ONE_ROOT, -0.5, NAN},
-        {{NOT_DEFINED, 0,     1e-10, 1e-10, NAN, NAN}, INFINITE_ROOTS, NAN, NAN}
+//      {{.a =  ,     .b =   ,    .c =      }, .refRootNumber = , .refX1 = , .refX2 = }
+        {{.a = 1,     .b = -5,    .c = 6    }, TWO_ROOTS,      2,    3  },
+        {{.a = 1,     .b =  2,    .c = 1    }, ONE_ROOT,       -1,   -1 },
+        {{.a = 1,     .b =  2,    .c = 3    }, NO_ROOTS,       NAN,  NAN},
+        {{.a = 1e-10, .b =  2,    .c = 1    }, ONE_ROOT,       -0.5, NAN},
+        {{.a = 0,     .b = 1e-10, .c = 1e-10}, INFINITE_ROOTS, NAN,  NAN},
     };
 
     for (size_t i = 0; i < sizer(tests); i++)
@@ -107,7 +110,9 @@ static void testQuadraticEquation(int* passed, int* total,
                                     EquationTestData* test) {
     feedbackAssert(passed && total,
                     "\n[ERROR]: Provided a null pointer to testQuadraticEquation()!");
-    //TODO more asserts
+    feedbackAssert(&(test->eqData), "\n[ERROR]: Provided a null EquationData pointer!");
+    feedbackAssert(!isnan(test->eqData.a) && !isnan(test->eqData.b) && !isnan(test->eqData.c),
+                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
 	quadraticEquation(&(test->eqData)); //вопрос ментору: записать получше?
 
@@ -117,15 +122,13 @@ static void testQuadraticEquation(int* passed, int* total,
         && smartEqual((test->eqData).x1, test->refX1, THRESHOLD)
         && smartEqual((test->eqData).x2, test->refX2, THRESHOLD)))
     {
-        printf("\n#%d FAILED: quadraticEquation(%lf, %lf, %lf, ...)"
-            " returned %d, x1 = %lf, x2 = %lf"
-            "\n(should be rootNumber = %d, x1 = %lf, x2=%lf)",
-            *total, (test->eqData).a,
-            (test->eqData).b,          (test->eqData).c,
-            (test->eqData).rootNumber, (test->eqData).x1,
-            (test->eqData).x2, test->refRootNumber,
-            test->refX1,       test->refX2);
-        return;
+		printf("\n#%d FAILED: quadraticEquation(%lf, %lf, %lf, ...)"
+               "\nreturned %s, x1 = %lf, x2 = %lf"
+               "\n(should be rootNumber = %s, x1 = %lf, x2=%lf)",
+               *total, (test->eqData).a, (test->eqData).b, (test->eqData).c,
+               rootNumberToString((test->eqData).rootNumber), (test->eqData).x1, (test->eqData).x2,
+               rootNumberToString(test->refRootNumber),        test->refX1,       test->refX2);
+		return;
 	}
 
     (*passed)++;
@@ -136,9 +139,10 @@ static void testLinearEquations(int* passed, int* total) {
                     "\n[ERROR]: Provided a null pointer to testLinearEquations()!");
 
     EquationTestData tests[3] = {
-        {{NOT_DEFINED, 0, 4, 2, NAN, NAN}, ONE_ROOT, -0.5, NAN},
-        {{NOT_DEFINED, 0, 0, 0, NAN, NAN}, INFINITE_ROOTS, NAN, NAN},
-        {{NOT_DEFINED, 0, 0, 3, NAN, NAN}, NO_ROOTS, NAN, NAN}
+//      {{.a =  , .b =   , .c =  }, .refRootNumber = , .refX1 = , .refX2 = }
+        {{.a = 0, .b =  4, .c = 2}, ONE_ROOT,       -0.5, NAN},
+        {{.a = 0, .b =  0, .c = 0}, INFINITE_ROOTS, NAN,  NAN},
+        {{.a = 0, .b =  0, .c = 3}, NO_ROOTS,       NAN,  NAN},
     };
 
     for (size_t i = 0; i < sizer(tests); i++)
@@ -146,10 +150,12 @@ static void testLinearEquations(int* passed, int* total) {
 }
 
 static void testLinearEquation(int* passed, int* total,
-                                EquationTestData* test) {
+                               EquationTestData* test) {
     feedbackAssert(passed && total,
                     "\n[ERROR]: Provided a null pointer to testLinearEquation()!");
-    //TODO more asserts
+    feedbackAssert(&(test->eqData), "\n[ERROR]: Provided a null EquationData pointer!");
+    feedbackAssert(!isnan(test->eqData.a) && !isnan(test->eqData.b) && !isnan(test->eqData.c),
+                    "\n[ERROR]: Provided a nan double (coefficient inside EquationData)");
 
     linearEquation(&(test->eqData)); //вопрос ментору: записать получше?
 
@@ -160,13 +166,11 @@ static void testLinearEquation(int* passed, int* total,
         && smartEqual((test->eqData).x2, test->refX2, THRESHOLD)))
     {
 		printf("\n#%d FAILED: linearEquation(%lf, %lf, %lf, ...)"
-                " returned %d, x1 = %lf, x2 = %lf"
-                "\n(should be rootNumber = %d, x1 = %lf, x2=%lf)",
-                *total, (test->eqData).a,
-                (test->eqData).b, (test->eqData).c,
-                (test->eqData).rootNumber, (test->eqData).x1,
-                (test->eqData).x2, test->refRootNumber,
-                test->refX1, test->refX2);
+               "\nreturned %s, x1 = %lf, x2 = %lf"
+               "\n(should be rootNumber = %s, x1 = %lf, x2=%lf)",
+               *total, (test->eqData).a, (test->eqData).b, (test->eqData).c,
+               rootNumberToString((test->eqData).rootNumber), (test->eqData).x1, (test->eqData).x2,
+               rootNumberToString(test->refRootNumber),        test->refX1,       test->refX2);
 		return;
 	}
 
